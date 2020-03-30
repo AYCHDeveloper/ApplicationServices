@@ -36,3 +36,4 @@ prost-build = "0.6.1"
 
 [features]
 default = []
+gecko = [ "rc_crypto/gecko" ]

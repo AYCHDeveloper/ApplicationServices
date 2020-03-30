@@ -14,3 +14,6 @@ serde = "1.0.104"
 serde_derive = "1.0.104"
 toml = "0.5.3"
 nss_build_common = {path = "../nss_build_common"}
+
+[features]
+gecko = []
