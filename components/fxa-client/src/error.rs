@@ -144,9 +144,6 @@ pub enum ErrorKind {
     #[fail(display = "Unexpected HTTP status: {}", _0)]
     UnexpectedStatus(#[fail(cause)] viaduct::UnexpectedStatus),
 
-    #[fail(display = "Sync15 error: {}", _0)]
-    SyncError(#[fail(cause)] sync15::Error),
-
     #[fail(display = "HAWK error: {}", _0)]
     HawkError(#[fail(cause)] hawk::Error),
 
@@ -165,7 +162,6 @@ error_support::define_error! {
         (RequestError, viaduct::Error),
         (UnexpectedStatus, viaduct::UnexpectedStatus),
         (MalformedUrl, url::ParseError),
-        (SyncError, sync15::Error),
         (ProtobufDecodeError, prost::DecodeError),
     }
 }

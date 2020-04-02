@@ -18,7 +18,6 @@ use hex;
 use rc_crypto::ece::{self, Aes128GcmEceWebPush, EcKeyComponents, WebPushParams};
 use rc_crypto::ece_crypto::{RcCryptoLocalKeyPair, RcCryptoRemotePublicKey};
 use serde_derive::*;
-use sync15::{EncryptedPayload, KeyBundle};
 
 pub const COMMAND_NAME: &str = "https://identity.mozilla.com/cmd/open-uri";
 
@@ -132,17 +131,7 @@ struct SendTabKeysPayload {
 
 impl SendTabKeysPayload {
     fn decrypt(self, scoped_key: &ScopedKey) -> Result<PublicSendTabKeys> {
-        let (ksync, kxcs) = extract_oldsync_key_components(scoped_key)?;
-        if hex::decode(self.kid)? != kxcs {
-            return Err(ErrorKind::MismatchedKeys.into());
-        }
-        let key = KeyBundle::from_ksync_bytes(&ksync)?;
-        let encrypted_bso = EncryptedPayload {
-            iv: self.iv,
-            hmac: self.hmac,
-            ciphertext: self.ciphertext,
-        };
-        Ok(encrypted_bso.decrypt_and_parse_payload(&key)?)
+        unimplemented!()
     }
 }
 
@@ -158,15 +147,7 @@ pub struct PublicSendTabKeys {
 
 impl PublicSendTabKeys {
     fn encrypt(&self, scoped_key: &ScopedKey) -> Result<SendTabKeysPayload> {
-        let (ksync, kxcs) = extract_oldsync_key_components(scoped_key)?;
-        let key = KeyBundle::from_ksync_bytes(&ksync)?;
-        let encrypted_payload = EncryptedPayload::from_cleartext_payload(&key, &self)?;
-        Ok(SendTabKeysPayload {
-            kid: hex::encode(kxcs),
-            iv: encrypted_payload.iv,
-            hmac: encrypted_payload.hmac,
-            ciphertext: encrypted_payload.ciphertext,
-        })
+        unimplemented!()
     }
     pub fn as_command_data(&self, scoped_key: &ScopedKey) -> Result<String> {
         let encrypted_public_keys = self.encrypt(scoped_key)?;
